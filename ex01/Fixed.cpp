@@ -25,8 +25,31 @@ Fixed::Fixed(Fixed const &uno){
 	*this = uno;
 }
 
+Fixed::Fixed(const int ar){
+	std::cout << "Int constructor called" << std::endl;
+	n = ar << nbr;
+}
+
+Fixed::Fixed(const float ft){
+	std::cout << "Float constructor called" << std::endl;
+	n = (int)(roundf(ft  * (1 << nbr)));
+}
+
+float Fixed::toFloat(void) const{
+	return (((float)(n) / (1 << nbr)));
+}
+
+int Fixed::toInt(void) const{
+	return (n >> nbr);
+}
+
 Fixed &Fixed::operator=(const Fixed &uno){
 	std::cout << "overloaded operator called" << std::endl;
 	this->n = uno.getRawBits();
 	return *this;
+}
+
+std::ostream& operator<<(std::ostream& out, const Fixed& fixed){
+	out << fixed.toFloat();
+	return (out);
 }
